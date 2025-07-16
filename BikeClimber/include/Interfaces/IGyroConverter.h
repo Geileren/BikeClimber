@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Arduino.h>
 
 class IGyroConverter
@@ -5,9 +7,9 @@ class IGyroConverter
 public:
     struct GyroData
     {
-        double accX, accY, accZ;
+        double rollAngle, pitchAngle;
         double temp;
-        double gyroX, gyroY, gyroZ;
+        double rollRate, pitchRate, yawRate; // (x, y, z)
     };
 
     virtual GyroData readAll() = 0;

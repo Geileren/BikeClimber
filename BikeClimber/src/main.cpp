@@ -3,6 +3,7 @@
 #include <Wire.h>
 #include "GY521.h"
 #include "GY521DataConverter.h"
+#include <GyroFilter.h>
 
 #define BAUD_RATE 9600
 #define MPU_I2C_ADDRESS 0x68
@@ -15,6 +16,8 @@ GY521::GY521Config gyro1Config{
 GY521 gyro1(gyro1Config);
 GY521DataConverter gyroConverter1(gyro1);
 
+GyroFilter gf(gyroConverter1);
+
 void setup()
 {
   Wire.begin();
@@ -24,31 +27,27 @@ void setup()
 
 void loop()
 {
-  GY521DataConverter::GyroData measurement = gyroConverter1.readAll();
+  auto measurement = gf.filteredAngle();
 
-  Serial.print(measurement.accX);
+  Serial.print("roll:");
+  Serial.print(measurement.roll);
   Serial.print(",");
-  Serial.println(measurement.gyroX);
 
-  /*   Serial.print("aY: ");
-    Serial.print(measurement.accY);
-    Serial.print("  ");
+  Serial.print("pitch:");
+  Serial.println(measurement.pitch);
+  // Serial.print("  ");
 
-    Serial.print("aZ: ");
-    Serial.print(measurement.accZ);
-    Serial.print("  ");
+  /*  Serial.print("gX: ");
+   Serial.print(measurement.gyroX);
+   Serial.print("  ");
 
-    Serial.print("gX: ");
-    Serial.print(measurement.gyroX);
-    Serial.print("  ");
+   Serial.print("gY: ");
+   Serial.print(measurement.gyroY);
+   Serial.print("  ");
 
-    Serial.print("gY: ");
-    Serial.print(measurement.gyroY);
-    Serial.print("  ");
+   Serial.print("gZ: ");
+   Serial.print(measurement.gyroZ);
+   Serial.println("  "); */
 
-    Serial.print("gZ: ");
-    Serial.print(measurement.gyroZ);
-    Serial.print("  ");
-   */
-  delay(20);
+  delay(200);
 }
