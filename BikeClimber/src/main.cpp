@@ -1,33 +1,54 @@
+
 #include <Arduino.h>
-#include "GY-521.h"
+#include <Wire.h>
+#include "GY521.h"
+#include "GY521DataConverter.h"
 
 #define BAUD_RATE 9600
-int gyroResult;
+#define MPU_I2C_ADDRESS 0x68
 
-// put function declarations here:
-int myFunction(int, int);
+GY521::GY521Config gyro1Config{
+    MPU_I2C_ADDRESS,
+    GY521::AccelRange::low2g,
+    GY521::GyroRange::low250dps};
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
-  gyroResult = setupGyro();
+GY521 gyro1(gyro1Config);
+GY521DataConverter gyroConverter1(gyro1);
 
+void setup()
+{
+  Wire.begin();
   Serial.begin(BAUD_RATE);
-
-  pinMode(LED_BUILTIN, OUTPUT);
+  gyro1.setupSensor();
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-  Serial.println(gyroResult);
+void loop()
+{
+  GY521DataConverter::GyroData measurement = gyroConverter1.readAll();
 
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(300);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(300);
-}
+  Serial.print(measurement.accX);
+  Serial.print(",");
+  Serial.println(measurement.gyroX);
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  /*   Serial.print("aY: ");
+    Serial.print(measurement.accY);
+    Serial.print("  ");
+
+    Serial.print("aZ: ");
+    Serial.print(measurement.accZ);
+    Serial.print("  ");
+
+    Serial.print("gX: ");
+    Serial.print(measurement.gyroX);
+    Serial.print("  ");
+
+    Serial.print("gY: ");
+    Serial.print(measurement.gyroY);
+    Serial.print("  ");
+
+    Serial.print("gZ: ");
+    Serial.print(measurement.gyroZ);
+    Serial.print("  ");
+   */
+  delay(20);
 }
