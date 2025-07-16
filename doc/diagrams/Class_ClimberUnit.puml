@@ -1,0 +1,65 @@
+@startuml ClimberUnitClass
+
+interface IGyroConverter {
+  +struct GyroData
+}
+interface IGyroFilter
+interface IGyroAccumulator
+interface IBaroAccumulator
+interface IBaroConverter
+interface ICommunicator
+interface IDisplay
+
+class Main
+
+class GY521{
+    +struct GY521Config
+    +struct GY521RawData
+}
+
+
+
+
+class GyroAccumulator
+class BaroAccumulator
+
+class GY521DataConverter
+class BMP280Converter
+class BMP280
+class GY521Filter
+class Bluetooth
+class OLED
+
+
+Main --> IGyroAccumulator
+Main --> IBaroAccumulator
+Main --> IDisplay
+Main --> ICommunicator
+
+IGyroAccumulator <|.. GyroAccumulator
+IBaroAccumulator <|.. BaroAccumulator
+
+IGyroConverter <|.. GY521DataConverter 
+IBaroConverter <|.. BMP280Converter
+
+IGyroFilter <|.. GY521Filter
+
+
+
+GyroAccumulator --> IGyroFilter
+GY521DataConverter --> GY521
+GY521Filter --> IGyroConverter
+
+BaroAccumulator --> IBaroConverter
+BMP280Converter --> BMP280
+
+IDisplay <|.. OLED
+ICommunicator <|.. Bluetooth
+
+
+
+
+
+
+
+@enduml

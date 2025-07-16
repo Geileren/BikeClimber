@@ -1,0 +1,27 @@
+@startuml BikeClimerContext
+scale 2
+!include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(Biker, "Biker", "Rides their bike up and down hills")
+
+System_Boundary(C1, "BikeClimber"){
+    Container(Unit, "ClimberUnit", "Embedded ESP32", "Measures climbing data of bike rides")
+    Container(App, "ControlApp", "Android Native App", "Displays live climbing data, and relays to backend")
+    Container(Api, "Web-Api", "ASP.NET Core Api", "Facilitates saving and loading data and auth for frontend")
+    ContainerDb(Database, "Database", "MongoDB", "Reads and writes data")
+    Container(Web, "Web-App", "React, Tailwind", "Allows viewing of previous logged rides")
+}
+
+Rel(Biker, Unit, "Installs and reads simple live data")
+Rel(Biker, App, "Logs in and reads live data")
+Rel(Biker, Web, "Logs in and sees old rides on")
+
+Rel_R(Unit, App, "Sends data to")
+Rel(App, Api, "Sends data to")
+Rel(Web, Api, "Reads data from")
+
+Rel(Api, Database, "Reads/writes data on")
+
+
+
+@enduml

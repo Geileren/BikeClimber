@@ -1,0 +1,31 @@
+@startuml ClimberUnitComponent
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(Biker, "Biker", "Rides their bike up and down hills")
+
+Container(App, "ControlApp", "Android Native App", "Displays live climbing data, and relays to backend")
+
+
+Container_Boundary(c3, "ClimberUnit") {
+    
+    Component(Barometer, "Barometer", "Sensor", "Measures altitude gain")
+    Component(Gyro, "Gyroscope", "Sensor", "Measures angle of incline")
+    Component(Oled, "OLED display", "Actuator", "Displays current climbing data")
+    Component(Main, "Main", "Controller", "Controls other compoenents")
+    Component(Bluetooth, "Bluetooth", "Communication", "Allows wireless communication with a smartphone")
+    }
+
+Rel(Biker, c3, "Installs and reads data from")
+
+Rel_R(Bluetooth, App, "Sends data to")
+
+
+Rel_L(Main, Oled, "Updates")
+Rel(Main, Gyro, "Controls")
+Rel(Main, Barometer, "Controls")
+Rel(Main, Bluetooth, "Uses")
+
+Bluetooth <-L[hidden]- Barometer
+Bluetooth -L[hidden]-> Gyro
+@enduml
