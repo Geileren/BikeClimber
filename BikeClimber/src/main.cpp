@@ -49,5 +49,5 @@ void loop()
    Serial.print(measurement.gyroZ);
    Serial.println("  "); */
 
-  delay(200);
+  delay(10);
 }
