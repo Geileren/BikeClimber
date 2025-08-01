@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:DataClimber.ViewModels"
+             xmlns:m="clr-namespace:DataClimber.Models"
+             x:Class="DataClimber.Views.DashboardPage"
+             x:DataType="vm:DashboardViewModel"
+             Title="DashboardPage">
+    <VerticalStackLayout>
+        <Label 
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Label
+            Text="DummyData: "
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+            FontSize="24"
+            TextColor="IndianRed" />
+        
+        <Label
+            Text="{Binding LatestRawData}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+            FontSize="24"
+            TextColor="DarkBlue" />
+
+        <Label 
+            Text="⦿" 
+            FontSize="72"
+            TextColor="{Binding IconColor}" 
+            HorizontalOptions="Center" />
+        <Label 
+    Text="⦿" 
+    FontSize="72"
+    TextColor="{Binding Icon2Color}" 
+    HorizontalOptions="Center" />
+        <Button
+            Text="Wallah"
+            Command="{Binding ToggleColorCommand}"/>
+
+        <Label
+            Text="{Binding StatusMessage}"
+                       FontSize="24"
+           TextColor="DarkBlue"/>
+    </VerticalStackLayout>
+</ContentPage>
